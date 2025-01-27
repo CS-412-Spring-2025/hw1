@@ -8,10 +8,10 @@
 
 
 \printanswers
-
+\addpoints
 \title{Homework Assignment 1}
-\author{CS/CE 412/471 Algorithms: Design and Analysis}
-\date{Spring 2025}
+\author{CS/CE 412/471 Algorithms: Design and Analysis, Spring 2025}
+\date{\numquestions\ problems, \numpoints\ points}
 
 % \qformat{{\large\bf \thequestion. \thequestiontitle}\hfill}
 \boxedpoints
@@ -23,10 +23,13 @@
 \includegraphics[trim=0 5cm 0 1cm, clip, width=\textwidth]{title}
 \begin{questions}
   
-\question[5]
-  Sort the order of growth of the following 8 functions and justify your solution.
+\question[10]
+  Sort the order of growth of the following functions and justify your solution.
   \[
-    7n,\; \lg n^{\lg n},\; n^{\lg n},\; n^2\lg n,\; \left(\frac{n}{2}\right)^{\frac{n}{2}},\; 3^{n^3},\; n^{\lg 3},\; n^2
+    f_1(n) = 7n,\quad f_2(n) = \lg n^{\lg n},\quad f_3(n) = n^{\lg n},\quad f_4(n) = n^2\lg n
+  \]
+  \[
+    f_5(n) = \left(\frac{n}{2}\right)^{\frac{n}{2}},\quad f_6(n) = 3^{n^3},\quad f_7(n) = n^{\lg 3},\quad f_8(n) = n^2
   \]
   If some have the same asymptotic growth, then be sure to indicate that. As usual, $\lg$ indicates a base of 2.
     \begin{solution}
@@ -64,11 +67,11 @@
     \end{enumerate}
 
   \begin{parts}
-  \part[5] Given a number, $x$, and an array, $A$, containing $n$ numbers, decide if the array contains two numbers $a$ and $b$ such that $a+b = x$.
+  \part[10] Given a number, $x$, and an array, $A$, containing $n$ numbers, decide if the array contains two numbers $a$ and $b$ such that $a+b = x$.
     \begin{solution}
       
     \end{solution}
-  \part[5] Given $k$ sorted lists containing a total of $n$ numbers, combine them to create a single sorted list of the $n$ numbers.
+  \part[10] Given $k$ sorted lists containing a total of $n$ numbers, combine them to create a single sorted list of the $n$ numbers.
     \begin{solution}
       
     \end{solution}
@@ -91,7 +94,7 @@
   \end{parts}
 
 
-\question[5]\ 
+\question\ 
   
   \begin{tabularx}{\textwidth}{c|X}
     \includegraphics[scale=0.3,valign=t]{hull}
@@ -99,7 +102,7 @@
   The \textit{convex hull} of a set of 2D points is a subset of the points that forms a \href{https://en.wikipedia.org/wiki/Convex_polygon}{convex polygon} which contains all the other points. It can be described informally as, the shape enclosed by a rubber band stretched around the points. 
   \end{tabularx}
   \begin{parts}
-  \part[5] Design a divide and conquer algorithm to compute the convex hull of a set of 2D points and describe it using the pseudocode conventions listed in Section 2.1 of CLRS.
+  \part[10] Design a divide and conquer algorithm to compute the convex hull of a set of 2D points and describe it using the pseudocode conventions listed in Section 2.1 of CLRS.
     \begin{solution}
       
     \end{solution}
