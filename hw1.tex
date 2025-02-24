@@ -415,7 +415,7 @@
       
       A call to $\proc{k-way-merge}$ with $k=3, n=7$, and $A_1,A_2,A_3$ as shown. (a) The elements in the $A_i$s as indicated by \id{idx} are in yellow. The first element from $A_1$ is chosen as $m$ and copied to $A$ and its index has advanced. (b) The first element of $A_2$ is copied to $A$. (c) The second element of $A_2$ is copied to $A$. $A_2$ is now exhausted. (d-f) The algorithm proceeds similarly. (g) $A$ gets its last element. All $A_i$s are exhausted.
 
-    \item The best case and worst case are similar. The execution of Line 9 depends on a condition and the for loop on Line 11 may break before completion. But that will have little impact on the overall running time.
+    \item Very few lines depend on a conditional. So the best case and worst case are similar. The execution of Line 9 depends on a condition and the \For loop on Line 11 may break before completion. But that will have little impact on the overall running time.
     \item The algorithm will work correctly provided all types and inputs are as expected.
     \item Assuming memory allocation to take constant time, all lines take constant time. The outer \For loop (line 4) runs in time linear in $n$. The inner \For loop on line 7 runs in time linear in $k$. The inner \For loop on line 11 runs in time linear in $k$ or less, depending on the input. However, the time for the body of the outer \For loop on line 4 is already determined by the inner \For loop on line 7. The overall time complexity is therefore $\Theta(nk)$.
     \end{enumerate}
@@ -426,15 +426,54 @@
   \begin{parts}
   \part[5] $T(n) = 2T\left(\frac{n}{4}\right) + 1$
     \begin{solution}
-      
+      Unrolling leads to the pattern, $T(n)=2^iT(\frac{n}{4^i}) + \sum_{j=0}^{i-1}2^j = 2^iT(\frac{n}{4^i}) + 2^i-1$.
+
+      The base case occurs at $i=\log_4n$.
+
+      Substituting, $T(n) = 2^{\log_4n}c +2^{\log_4n} - 1 = $ \colorbox{yellow}{$\Theta(\sqrt{n})$}.
+
+      In terms of the master theorem, $f(n)=n^0$ and $n^{\log_ba}=n^{0.5}$.
+
+      Case 1 of the theorem applies, $f(n) = O(n^{\log_ba-\epsilon})$. One solution is $\epsilon=0.5$.
+
+      Then, $T(n)=\Theta(n^{\log_ba})=$ \colorbox{yellow}{$\Theta(\sqrt{n})$}, as obtained above.
     \end{solution}
   \part[5] $T(n) = 2T\left(\frac{n}{4}\right) + n$
     \begin{solution}
-      
+      Unrolling leads to the pattern, $T(n)=2^iT(\frac{n}{4^i}) + n\sum_{j=0}^{i-1}2^{-j} = 2^iT(\frac{n}{4^i}) + n(2 - 2^{1-i})$.
+
+      The base case occurs at $i=\log_4n$.
+
+      Substituting, $T(n) = 2^{\log_4n}c +n(2-2^{1-\log_4n}) = c\sqrt{n}+2n-2\sqrt{n}=$ \colorbox{yellow}{$\Theta(n)$}.
+
+      In terms of the master theorem, $f(n)=n^1$ and $n^{\log_ba}=n^{0.5}$.
+
+      Case 3 of the theorem applies, $f(n) = \Omega(n^{\log_ba+\epsilon})$. One solution is $\epsilon=0.5$.
+
+      Additionally, for the regularity condition, $2f(\frac{n}{4})\le cf(n) \implies \frac{2n}{4}\le cn$.
+
+      One solution is $c=\frac{1}{2}$.
+
+      Then, $T(n)=\Theta(f(n))=$ \colorbox{yellow}{$\Theta(n)$}, as obtained above.
     \end{solution}
+
   \part[5] $T(n) = 2T\left(\frac{n}{4}\right) + n^2$
     \begin{solution}
-      
+      Unrolling leads to the pattern, $T(n)=2^iT(\frac{n}{4^i}) + n^2\sum_{j=0}^{i-1}2^{-3j} = 2^iT(\frac{n}{4^i}) + \frac{8n^2}{7}(1 - 2^{-3i})$.
+
+      The base case occurs at $i=\log_4n$.
+
+      Substituting, $T(n) = 2^{\log_4n}c +\frac{8n^2}{7}(1-2^{-3\log_4n}) = c\sqrt{n}+\frac{8n^2}{7}(1-n^{-1.5})=$ \colorbox{yellow}{$\Theta(n^2)$}.
+
+      In terms of the master theorem, $f(n)=n^2$ and $n^{\log_ba}=n^{0.5}$.
+
+      Case 3 of the theorem applies, $f(n) = \Omega(n^{\log_ba+\epsilon})$. One solution is $\epsilon=1.5$.
+
+      Additionally, for the regularity condition, $2f(\frac{n}{4})\le cf(n) \implies \frac{2n^2}{16}\le cn^2$.
+
+      One solution is $c=\frac{1}{8}$.
+
+      Then, $T(n)=\Theta(f(n))=$ \colorbox{yellow}{$\Theta(n^2)$}, as obtained above.
     \end{solution}
   \end{parts}
 
@@ -449,7 +488,19 @@
   \begin{parts}
   \part[10] Design a divide and conquer algorithm to compute the convex hull of a set of 2D points and describe it using the pseudocode conventions listed in Section 2.1 of CLRS.
     \begin{solution}
-      
+\begin{codebox}
+\Procname{$\proc{convex-hull}(P, n)$}
+\li \If $\attrib{P}{size} \le 3$
+\Then
+\li \Return $P$
+\End
+\li $L, R \gets $ split $P$ into two halves, e.g. left and right halves
+\li $\id{LH} \gets \proc{convex-hull}(L, \attrib{L}{size})$
+\li $\id{RH} \gets \proc{convex-hull}(R, \attrib{R}{size})$
+\li \Return \proc{merge-hulls}(\id{LH}, \id{RH})
+\end{codebox}
+
+The logic for \proc{merge-hulls} is easily available online, e.g. using tangents as described \href{https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/7463c413c944ed72b46a3c3d02b49448_MIT6_046JS15_lec02.pdf}{here}.
     \end{solution}
   \part[5] Visualize the running of your algorithm as an \href{https://matplotlib.org/stable/users/explain/animations/animations.html}{animation} and submit the animation as an MP4 file.
   \end{parts}
