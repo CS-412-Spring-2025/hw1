@@ -1,5 +1,10 @@
 \documentclass[a4paper]{exam}
+
+
+\usepackage[table]{xcolor}
 \usepackage[export]{adjustbox}
+\usepackage{clrscode3e}
+\usepackage{amsmath,amssymb,amsthm}
 \usepackage{geometry}
 \usepackage{graphicx}
 \usepackage{hyperref}
@@ -33,30 +38,114 @@
   \]
   If some have the same asymptotic growth, then be sure to indicate that. As usual, $\lg$ indicates a base of 2.
     \begin{solution}
-      
-    \end{solution}
+      An initial ordering from lowest to highest order of growth can be established based on coefficients and powers of $n$.
+      \[ \begin{array}{c|c|c|c}
+        f_1& f_7&f_8&f_4\\\hline
+        7n& n^{\lg3}&n^2&n^2\lg n
+      \end{array} \]
+      Since exponential functions grow faster than polynomials, we can include $f_6$.
+      \[ \begin{array}{c|c|c|c|c}
+        f_1& f_7&f_8&f_4&f_6\\\hline
+        7n& n^{\lg3}&n^2&n^2\lg n&3^{n^3}
+      \end{array} \]
+      It remains to insert $f_2,f_3,f_5$ into the ordering.
+
+      We show that $f_2$ grows slower than $f_1$.
+
+      Consider $\lim\limits_{n\to\infty}\frac{f_2(n)}{f_1(n)}=\lim\limits_{n\to\infty}\frac{\lg n^{\lg n}}{7n} = \lim\limits_{n\to\infty}\frac{(\lg n)(\lg n)}{7n} =\lim\limits_{n\to\infty}\frac{(\lg n)^2}{7n} $.
+
+      Applying L'Hopital's rule, this becomes $\lim\limits_{n\to\infty}\frac{(2\lg n)(1/n)}{7}=\lim\limits_{n\to\infty}\frac{2\lg n}{7n}$.
+
+      As the denominator grows faster than the numerator, the above limit is 0.
+
+      We include $f_2$ in the ordering as follows.
+      \[ \begin{array}{c|c|c|c|c|c}
+        f_2 & f_1& f_7&f_8&f_4&f_6\\\hline
+        \lg n^{\lg n} & 7n& n^{\lg3}&n^2&n^2\lg n&3^{n^3}
+      \end{array} \]
+    As $f_3(n)=n^{\lg n}$ is exponential in $n$, it dominates $f_4(n)=n^2\lg n$ which is polynomial in $n$.
+
+    The relation of $f_3(n)=n^{\lg n}$ to $f_6(n)=3^{n^3}$ needs to be explored.
+
+    Let us compare their logarithms: $\lg f_3(n) = (\lg n)^2$ and $\lg f_6(n) = n^3\lg 3$.
+
+      We include $f_2$ in the ordering as follows.
+      \[ \begin{array}{c|c|c|c|c|c|c}
+        f_2 & f_1& f_7&f_8&f_4&f_3&f_6\\\hline
+        \lg n^{\lg n} & 7n& n^{\lg3}&n^2&n^2\lg n& n^{\lg n} &3^{n^3}
+      \end{array} \]
+    $f_5(n) = \left(\frac{n}{2}\right)^{\frac{n}{2}}$ remains.
+
+    The power of $n$ in $f_5$ is linear in $n$ and logarithmic term in $f_3$.
+
+    Comparing $f_5$ to $f_6$, let us again compare logarithms.
+
+    $\lg f_5(n) = \frac{n}{2}\lg\frac{n}{2}$ and $\lg f_6(n) = n^3\lg 3$.
+      We include $f_2$ in the ordering as follows.
+      \[ \begin{array}{c|c|c|c|c|c|c|c}
+        f_2 & f_1& f_7&f_8&f_4&f_3&f_5&f_6\\\hline
+        \lg n^{\lg n} & 7n& n^{\lg3}&n^2&n^2\lg n& n^{\lg n} &\left(\frac{n}{2}\right)^{\frac{n}{2}}&3^{n^3}
+      \end{array} \]
+  \end{solution}
 
 \question
   Prove or disprove each of the following:
   \begin{parts}
   \part[5] $f(n) = \Theta\left( f\left(\frac{n}{4}\right)\right)$
     \begin{solution}
-      
+      Can be proved case-wise by considering polynomial and exponential functions, $f$.
     \end{solution}
-  \part[5] $2^n = o(2^{\frac{n}{2}})$ (i.e. $2^n = O(2^{\frac{n}{2}})$ and $2^n \ne \Theta(2^{\frac{n}{2}})$
+  \part[5] $2^n = o(2^{\frac{n}{2}})$ (i.e. $2^n = O(2^{\frac{n}{2}})$ and $2^n \ne \Theta(2^{\frac{n}{2}})$)
     \begin{solution}
-      
-    \end{solution}
+      \begin{proof} The claim is false.
+        
+        We provide a direct proof.
+
+        Let $N=2^n$.
+
+      Then the claim becomes, $N=O(\sqrt{N})$ and $N\ne \Theta(\sqrt{N})$.
+
+      Clearly, the claim $N=O(\sqrt{N})$ is false.
+
+      Therefore the given claim is false.
+    \end{proof}
+  \end{solution}
   \part[5] $\Theta(f(n)) + \Theta(g(n))=\Theta(f(n)+g(n))$
     \begin{solution}
-      
-    \end{solution}
+      \begin{proof} The claim is true.
+
+        We show that LHS equals RHS.
+        
+      Applying the definition of $\Theta$,
+      \[
+        c_1f(n) \le \Theta(f(n)) \le c_2f(n) \;\text{ and }\; d_1g(n) \le \Theta(g(n)) \le d_2g(n).
+      \]
+      Adding the two, 
+      \[
+        c_1f(n) + d_1g(n) \le \Theta(f(n)) + \Theta(g(n)) \le c_2f(n) + d_2g(n).
+      \]
+      Then,
+      \[
+        \Theta(f(n)) + \Theta(g(n)) \ge c_1f(n) + d_1g(n) \ge \min(c_1,d_1)(f(n) + d_1g(n)).
+      \]
+      That is, $\Theta(f(n)) + \Theta(g(n)) = \Omega(f(n)+g(n))$.
+
+      Similarly,
+      \[
+        \Theta(f(n)) + \Theta(g(n)) \le c_2f(n) + d_2g(n) \le \max(c_2,d_2)(f(n) + d_1g(n)).
+      \]
+      That is, $\Theta(f(n)) + \Theta(g(n)) = \O(f(n)+g(n))$.
+
+      Then, $\Theta(f(n)) + \Theta(g(n)) = \Theta(f(n)+g(n))$.
+    \end{proof}
+  \end{solution}
   \end{parts}
 % \question
 % Let $L$ be an array $L[1:n]$. The number of inversions in $L$ is the number of pairs $i < j$ such that $L[i] > L[j]$. Prove or disprove that counting the number of inversions requires at least $\Theta(n \lg n)$ comparisons in the worst case.
 
 \question You are given 2 problems below. You need to design an efficient algorithm for each of them. Specifically,
-    \begin{enumerate}
+
+  \begin{enumerate}
     \renewcommand{\theenumi}{\roman{enumi}} % Set enumeration to a, b, c...
     \item Clearly state the problem. For example, see how the sorting problem is stated on the first page of Chapter 1 of CLRS.
     \item Describe your algorithm. Follow the pseudocode conventions listed in Section 2.1 of CLRS. \textit{Do not} use programming language features, e.g. \pyth{list.append().}
@@ -69,11 +158,267 @@
   \begin{parts}
   \part[10] Given a number, $x$, and an array, $A$, containing $n$ numbers, decide if the array contains two numbers $a$ and $b$ such that $a+b = x$.
     \begin{solution}
+    \begin{enumerate}
+    \renewcommand{\theenumi}{\roman{enumi}}
+    \item
+      \begin{tabularx}{.8\textwidth}{l|X}
+        Input & An array, $A$, of numbers, its size, $n$, and a number, $x$.\\\hline
+        Output & \texttt{True} if the array contains two numbers $a$ and $b$ such that $a+b = x$, \texttt{False} otherwise.
+      \end{tabularx}
+    \item
+\begin{codebox}
+\Procname{$\proc{Pair-Exists}(A, n, x)$}
+\li $S \gets $ empty set
+\li \For $i \gets 1$ \To $n$
+\Do
+\li $a \gets A[i]$
+\li $b \gets x - a$
+\li \If $b \in S$
+\Do
+\li \Return \const{true} 
+\End
+\li $S \gets S \bigcup \{a\}$
+\End
+\li \Return \const{false}
+\End
+\end{codebox}
       
+    \item       (a)
+      \begin{tabular}{l}
+      \begin{tabular}{|*4{c|}}
+        \hline
+        \cellcolor{yellow}5&4&3&3\\\hline
+      \end{tabular}\\
+        $S = \{\}$\\
+        \colorbox{red!50}{$b = 1$}
+      \end{tabular}
+      (b)
+      \begin{tabular}{l}
+      \begin{tabular}{|*4{c|}}
+        \hline
+        5&\cellcolor{yellow}4&3&3\\\hline
+      \end{tabular}\\
+        $S = \{5\}$\\
+        \colorbox{red!50}{$b = 2$}
+      \end{tabular}
+      (c)
+      \begin{tabular}{l}
+      \begin{tabular}{|*4{c|}}
+        \hline
+        5&4&\cellcolor{yellow}3&3\\\hline
+      \end{tabular}\\
+        $S = \{5,4\}$\\
+        \colorbox{red!50}{$b = 3$}
+      \end{tabular}\\
+      (d)
+      \begin{tabular}{l}
+      \begin{tabular}{|*4{c|}}
+        \hline
+        5&4&3&\cellcolor{yellow}3\\\hline
+      \end{tabular}\\
+        $S = \{5,4,3\}$\\
+        \colorbox{green!50}{$b = 3$}
+      \end{tabular}
+
+      A call to $\proc{Pair-Exists}(A, 4, 6)$. \colorbox{yellow}{$a$} is shown for each interaction along with the current state of $S$ and the required $b$. (a) In the first iteration, \colorbox{yellow}{$a=5$}. The value of \colorbox{red!50}{$b=1$} is not found in $S$, which is then updated. (b-c) The algorithm proceeds similarly. (d) The value of \colorbox{green!50}{$b=3$} is found in $S$. The algorithm returns \const{true} and terminates.
+
+    \item The best case is when the first two elements of $A$ add up to $x$. The worst case is when no such pair exists in $A$.
+    \item The algorithm will work correctly provided all types are as expected.
+    \item All lines take constant time with possible uncertainty about set operations. If the set is implemented using a hash table, its operations will take constant time (amortized). In the worst case, no pair is found and the \For\ loop on line 2 completes. The time complexity is therefore $O(n)$.
+    \end{enumerate}
     \end{solution}
   \part[10] Given $k$ sorted lists containing a total of $n$ numbers, combine them to create a single sorted list of the $n$ numbers.
-    \begin{solution}
+    \begin{solution} 
+  \begin{enumerate}
+    \renewcommand{\theenumi}{\roman{enumi}}
+    \item
+      \begin{tabularx}{.9\textwidth}{l|X}
+        Input & $k$ sorted arrays, $A_1, A_2,\twodots,A_k$, of numbers where $|A_i|=n_i, 1\le i\le k$, and $\sum_in_i=n$.\\\hline
+        Output & A sorted array, $A$, containing all the numbers in $A_1, A_2,\twodots,A_k$.
+      \end{tabularx}
+    \item
+\begin{codebox}
+\Procname{$\proc{k-way-merge}(A_1, A_2, \twodots, A_k, k, n)$}
+\li \Comment assumes 1-indexing
+\li $A \gets $ array of size $n$ \Comment final array
+\li $\id{idx} \gets $ array of $k$ $1$s \Comment index in each $A_i$
+\li \For $j \gets 1$ \To $n$
+\Do
+\li \Comment get smallest number from $A_i$s to add to $A$
+\li $m\gets \infty$
+\li \For $i \gets 1$ \To $k$
+\Do
+\li \If $\id{idx}[i]\le \attrib{A_i}{length}$ and $A_i[\id{idx}[i]] < m$
+\Then
+\li $m\gets A_i[\id{idx}[i]]$
+\End
+\End
+\li \Comment update index for identified $A_i$
+\li \For $i \gets 1$ \To $k$
+\Do
+\li \If $\id{idx}[i]\le \attrib{A_i}{length}$ and $A_i[\id{idx}[i]] \isequal m$
+\Then
+\li $\id{idx}[i] \gets \id{idx}[i] + 1$
+\li break
+\End
+\End
+\li $A[j]\gets m$
+\End
+\li \Return $A$
+\end{codebox}
       
+    \item       (a)
+      \begin{tabular}{l}
+      $A_1$\begin{tabular}{|*3{c|}}
+        \hline
+        \textbf{3}&\cellcolor{yellow}10&17\\\hline
+      \end{tabular}\\ \\
+      $A_2$\begin{tabular}{|*2{c|}}
+        \hline
+        \cellcolor{yellow}4&6\\\hline
+      \end{tabular}\\ \\
+        $A_3$\begin{tabular}{|*2{c|}}
+        \hline
+        \cellcolor{yellow}11&20\\\hline
+      \end{tabular}\\ \\
+      $A$\begin{tabular}{|*7{c|}}
+        \hline
+        \cellcolor{green!50}3& & & & & & \\\hline
+      \end{tabular}
+      \end{tabular}
+       (b)
+      \begin{tabular}{l}
+        $A_1$\begin{tabular}{|*3{c|}}
+        \hline
+        3&\cellcolor{yellow}10&17\\\hline
+      \end{tabular}\\ \\
+        $A_2$\begin{tabular}{|*2{c|}}
+        \hline
+        \textbf{4}&\cellcolor{yellow}6\\\hline
+      \end{tabular}\\ \\
+        $A_3$\begin{tabular}{|*2{c|}}
+        \hline
+        \cellcolor{yellow}11&20\\\hline
+      \end{tabular}\\ \\
+        $A$\begin{tabular}{|*7{c|}}
+        \hline
+        3& \cellcolor{green!50}4& & & & & \\\hline
+      \end{tabular}
+      \end{tabular}
+       (c)
+      \begin{tabular}{l}
+        $A_1$\begin{tabular}{|*3{c|}}
+        \hline
+        3&\cellcolor{yellow}10&17\\\hline
+      \end{tabular}\\ \\
+        $A_2$\begin{tabular}{|*2{c|}}
+        \hline
+        \rowcolor{red!50}
+        4&\textbf{6}\\\hline
+      \end{tabular}\\ \\
+        $A_3$\begin{tabular}{|*2{c|}}
+        \hline
+        \cellcolor{yellow}11&20\\\hline
+      \end{tabular}\\ \\
+        $A$\begin{tabular}{|*7{c|}}
+        \hline
+        3& 4& \cellcolor{green!50}6 & & & & \\\hline
+      \end{tabular}
+      \end{tabular}\\[5pt]
+      \centerline{\rule{250pt}{.5pt}}
+      
+       (d)
+      \begin{tabular}{l}
+        $A_1$\begin{tabular}{|*3{c|}}
+        \hline
+        3&\textbf{10}&\cellcolor{yellow}17\\\hline
+      \end{tabular}\\ \\
+        $A_2$\begin{tabular}{|*2{c|}}
+        \hline
+        \rowcolor{red!50}
+        4&6\\\hline
+      \end{tabular}\\ \\
+        $A_3$\begin{tabular}{|*2{c|}}
+        \hline
+        \cellcolor{yellow}11&20\\\hline
+      \end{tabular}\\ \\
+        $A$\begin{tabular}{|*7{c|}}
+        \hline
+        3& 4& 6 & \cellcolor{green!50}10& & & \\\hline
+      \end{tabular}
+      \end{tabular}
+       (e)
+      \begin{tabular}{l}
+        $A_1$\begin{tabular}{|*3{c|}}
+        \hline
+        3&10&\cellcolor{yellow}17\\\hline
+      \end{tabular}\\ \\
+        $A_2$\begin{tabular}{|*2{c|}}
+        \hline
+        \rowcolor{red!50}
+        4&6\\\hline
+      \end{tabular}\\ \\
+        $A_3$\begin{tabular}{|*2{c|}}
+        \hline
+        \textbf{11}&\cellcolor{yellow}20\\\hline
+      \end{tabular}\\ \\
+        $A$\begin{tabular}{|*7{c|}}
+        \hline
+        3& 4& 6 & 10& \cellcolor{green!50}11 & & \\\hline
+      \end{tabular}
+      \end{tabular}\\[5pt]
+      \centerline{\rule{250pt}{.5pt}}
+      
+       (f)
+      \begin{tabular}{l}
+        $A_1$\begin{tabular}{|*3{c|}}
+        \hline
+        \rowcolor{red!50}
+        3&10&\textbf{17}\\\hline
+      \end{tabular}\\ \\
+        $A_2$\begin{tabular}{|*2{c|}}
+        \hline
+        \rowcolor{red!50}
+        4&6\\\hline
+      \end{tabular}\\ \\
+        $A_3$\begin{tabular}{|*2{c|}}
+        \hline
+        11&\cellcolor{yellow}20\\\hline
+      \end{tabular}\\ \\
+        $A$\begin{tabular}{|*7{c|}}
+        \hline
+        3& 4& 6 & 10& 11 & \cellcolor{green!50}17& \\\hline
+      \end{tabular}
+      \end{tabular}
+       (g)
+      \begin{tabular}{l}
+        $A_1$\begin{tabular}{|*3{c|}}
+        \hline
+        \rowcolor{red!50}
+        3&10&17\\\hline
+      \end{tabular}\\ \\
+        $A_2$\begin{tabular}{|*2{c|}}
+        \hline
+        \rowcolor{red!50}
+        4&6\\\hline
+      \end{tabular}\\ \\
+        $A_3$\begin{tabular}{|*2{c|}}
+        \hline
+        \rowcolor{red!50}
+        11&\textbf{20}\\\hline
+      \end{tabular}\\ \\
+        $A$\begin{tabular}{|*7{c|}}
+        \hline
+        3& 4& 6 & 10& 11 & 17&\cellcolor{green!50}20 \\\hline
+      \end{tabular}
+      \end{tabular}\\[5pt]
+      
+      A call to $\proc{k-way-merge}$ with $k=3, n=7$, and $A_1,A_2,A_3$ as shown. (a) The elements in the $A_i$s as indicated by \id{idx} are in yellow. The first element from $A_1$ is chosen as $m$ and copied to $A$ and its index has advanced. (b) The first element of $A_2$ is copied to $A$. (c) The second element of $A_2$ is copied to $A$. $A_2$ is now exhausted. (d-f) The algorithm proceeds similarly. (g) $A$ gets its last element. All $A_i$s are exhausted.
+
+    \item The best case and worst case are similar. The execution of Line 9 depends on a condition and the for loop on Line 11 may break before completion. But that will have little impact on the overall running time.
+    \item The algorithm will work correctly provided all types and inputs are as expected.
+    \item Assuming memory allocation to take constant time, all lines take constant time. The outer \For loop (line 4) runs in time linear in $n$. The inner \For loop on line 7 runs in time linear in $k$. The inner \For loop on line 11 runs in time linear in $k$ or less, depending on the input. However, the time for the body of the outer \For loop on line 4 is already determined by the inner \For loop on line 7. The overall time complexity is therefore $\Theta(nk)$.
+    \end{enumerate}
     \end{solution}
   \end{parts}
   
